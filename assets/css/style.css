@@ -1,0 +1,44 @@
+/*basic web page styling*/
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    text-align: center;
+}
+
+header {
+    padding: 40px 20px;
+    color: darkmagenta;
+}
+
+header nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+}
+
+.main-content {
+    padding: 120px 120px;
+}
+
+.main-content p {
+    padding: 30px 30px;
+    font-size: 20px;
+    font-weight: medium;
+}
+
+.main-content-btn {
+    padding: 15px 30px;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    border-radius:  15px;
+    background-color: blue;
+}
+
+
