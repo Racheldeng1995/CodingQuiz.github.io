@@ -3,10 +3,12 @@ var quizQustion = [
         quizId : 1,
         quizDetails: {
             quizQuestion: "Commanly used data type DO Not include:",
-            quizChoice1: "1. strings",
-            quizChoice2: "2. booleans",
-            quizChoice3: "3. alerts",
-            quizChoice4: "4. numbers",
+            quizChoice: [
+                "1. strings",
+                "2. booleans",
+                "3. alerts",
+                "4. numbers"
+            ]
         },
     quizAnswer: 3
     },
@@ -14,10 +16,12 @@ var quizQustion = [
         quizId : 2,
         quizDetails: {
             quizQuestion: "The condition in an if/else statement is enclosed with _____",
-            quizChoice1: "1. quotes",
-            quizChoice2: "2. curly brackets",
-            quizChoice3: "3. parenthesis",
-            quizChoice4: "4. square brackets",
+            quizChoice: [
+                "1. quotes",
+                "2. curly brackets",
+                "3. parenthesis",
+                "4. square brackets"
+            ]
         },
         quizAnswer: 3
     },
@@ -25,17 +29,20 @@ var quizQustion = [
         quizId : 3,
         quizDetails: {
             quizQuestion: "Arrays in JavaScript can be used to store _____",
-            quizChoice1: "1. numbers and strings",
-            quizChoice2: "2. other arrays",
-            quizChoice3: "3. booleans",
-            quizChoice4: "4. All of above",
+            quizChoice: [
+                "1. numbers and strings",
+                "2. other arrays",
+                "3. booleans",
+                "4. All of above"
+            ]
         },
         quizAnswer: 4
     }
 ]
 
 var timerEl = document.querySelector("#timer")
-var buttonEl =document.querySelector("#start-btn")
+var buttonEl = document.querySelector("#start-btn")
+var quizEl = document.querySelector("#content-quiz")
 
 
 var startCountDown = function() {
@@ -57,7 +64,28 @@ buttonEl.addEventListener("click",function(){
     startQuiz();
 })
 
-var startQuiz = function showDiv() {
-    document.getElementById('content-quiz').style.display = "block";
+var startQuiz = function () {
     document.getElementById('content-start').style.display = "none";
- }
+
+    for (var i = 0; i < quizQustion.length; i++){
+        // document.getElementById('content-quiz').style.display = "block";
+        var createQuizEl = function(quizQustion) {
+            quizEl.innerHTML = 
+                "<h1>" + quizQustion[i]["quizDetails"]["quizQuestion"] + "<h1>";
+            
+            var quizChoiceEl = document.createElement("ul");
+
+            for(var j = 0; j < quizQustion[i]["quizDetails"]["quizChoice"].length; j++ ) {
+                var listQuizEl = document.createElement("li")
+                var listBtnEl = document.createElement("button")
+                listBtnEl.className = "main-quiz-btn"
+                listBtnEl.setAttribute("id", "" + quizQustion[i]["quizId"] + j)
+                listBtnEl.innerHTML = quizQustion[i]["quizDetails"]["quizChoice"][j]
+                listQuizEl.appendChild(listBtnEl)
+                quizChoiceEl.appendChild(listQuizEl)
+            }
+        var BtnEl = document.querySelector(quizQustion[i]["quizId"] + "-" + quizQustion[i]["quizDetails"][j][0])
+        }
+    }
+
+}
