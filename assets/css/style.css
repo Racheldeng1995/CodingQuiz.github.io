@@ -39,6 +39,7 @@ header nav ul {
     font-weight: bold;
     border-radius:  15px;
     background-color: blue;
+    cursor: pointer;
 }
 
 
