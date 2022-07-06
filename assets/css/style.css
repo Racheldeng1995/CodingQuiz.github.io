@@ -5,9 +5,9 @@
     margin: 0;
 }
 
-body {
+/* body {
     text-align: center;
-}
+} */
 
 header {
     padding: 40px 20px;
@@ -24,6 +24,7 @@ header nav ul {
 
 .main-content {
     padding: 120px 120px;
+    text-align: center;
 }
 
 .main-content p {
@@ -40,6 +41,31 @@ header nav ul {
     border-radius:  15px;
     background-color: blue;
     cursor: pointer;
+}
+
+.main-quiz {
+    padding: 120px 350px;
+    text-align: left;
+}
+
+.main-quiz ul {
+    list-style: none;
+}
+
+.main-quiz ul li {
+    padding: 10px;
+}
+
+.main-quiz-btn {
+    padding: 15px 30px;
+    color: white;
+    font-size: 20px;
+    font-weight: medium;
+    border-radius:  15px;
+    background-color: blue;
+    cursor: pointer;
+    width: 30%;
+    text-align: left;
 }
 
 
