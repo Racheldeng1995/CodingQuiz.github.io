@@ -188,9 +188,10 @@ var startQuiz = function () {
             console.log(listBtnEl)
             var inputValue = listBtnEl.id
             console.log(inputValue)
+
             listBtnEl.addEventListener("click", function() {
                 
-                if (quizCounter < 2) {
+                if (quizCounter < 2 && timerEl.getAttribute("value") != 0) {
                     createQuizEl(quizCounter+1);
                     quizEl.append(checkAnswer(ansValue,inputValue.slice(inputValue.length - 1)));
                     var ans = checkAnswer(ansValue,inputValue.slice(inputValue.length - 1))
@@ -206,15 +207,19 @@ var startQuiz = function () {
                 else{
                     var ans = checkAnswer(ansValue,inputValue.slice(inputValue.length - 1))
                     if(ans.innerHTML == "Wrong!") {
-                        //alert("here")
+                        
                         var remain = timerEl.getAttribute("value") - 10
                         console.log(remain)
                         stopCountDown()
                         startCountDown(remain)
                     }
-                    allDone(timerEl.getAttribute("value"))
-                    console.log(timerEl.getAttribute("value"))
+                    else{
+                        var remain = timerEl.getAttribute("value")
+                    }
+                    allDone(remain)
+                    console.log(remain)
                     allDoneSec.appendChild(checkAnswer(ansValue,inputValue.slice(inputValue.length - 1)))
+                    stopCountDown()
                     var submitBtn = document.getElementById ("submit-btn")
                     console.log(submitBtn)
 
@@ -231,7 +236,7 @@ var startQuiz = function () {
                     submitBtn.addEventListener("click", function(event) {
                         event.preventDefault();
                         var quizResultName = document.getElementById("ini-name").value
-                        var quizResultScore = timerEl.getAttribute("value")
+                        var quizResultScore = remain
                         console.log(quizResultName)
                         console.log(quizResultScore)
                         resultArray = {"name": quizResultName, "score":quizResultScore}
