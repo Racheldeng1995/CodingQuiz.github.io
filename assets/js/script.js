@@ -73,8 +73,10 @@ var checkAnswer = function(answer, input){
         console.log(input)
         console.log(answer)
     }
-    quizEl.appendChild(ansEl)
-    console.log(quizEl)
+
+    return ansEl
+    // quizEl.appendChild(ansEl)
+    // console.log(quizEl)
 }
 
 var allDone = function(time) {
@@ -142,11 +144,12 @@ var startQuiz = function () {
                 
                 if (quizCounter < 2) {
                     createQuizEl(quizCounter+1);
-                    checkAnswer(ansValue,inputValue.slice(inputValue.length - 1));
+                    quizEl.append(checkAnswer(ansValue,inputValue.slice(inputValue.length - 1)));
                 }
                 else{
                     allDone(timerEl.getAttribute("value"))
                     console.log(timerEl.getAttribute("value"))
+                    allDoneSec.appendChild(checkAnswer(ansValue,inputValue.slice(inputValue.length - 1)))
                 }
             })
             console.log(listBtnEl)
