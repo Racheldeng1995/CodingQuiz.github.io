@@ -44,11 +44,16 @@ var timerEl = document.querySelector("#timer")
 var buttonEl = document.querySelector("#start-btn")
 var quizEl = document.querySelector("#content-quiz")
 var allDoneSec = document.querySelector("#all-done")
+var finalPageSec = document.querySelector("#final-page")
+console.log(finalPageSec)
+
+
+var timeInterval = null
 
 var startCountDown = function(num) {
     var timeLeft = num;
 
-    var timeInterval = setInterval(function () {
+    timeInterval = setInterval(function () {
         timeLeft--;
         if (timeLeft < 0) {
             clearInterval(timeInterval);
@@ -59,6 +64,11 @@ var startCountDown = function(num) {
         }
     }, 1000)
 }
+
+function stopCountDown() {
+    // To cancel an interval, pass the timer to clearInterval()
+    clearInterval(timeInterval);
+  }
 
 var checkAnswer = function(answer, input){
     var ansEl = document.createElement("p")
@@ -75,8 +85,6 @@ var checkAnswer = function(answer, input){
     }
 
     return ansEl
-    // quizEl.appendChild(ansEl)
-    // console.log(quizEl)
 }
 
 var allDone = function(time) {
@@ -92,7 +100,9 @@ var allDone = function(time) {
     initialName.innerHTML = "Enter Initials"
     var initiaInput = document.createElement("input")
     initiaInput.className = "form-input"
+    initiaInput.id = "ini-name"
     var submitButton = document.createElement("button")
+    submitButton.id = "submit-btn"
     submitButton.innerHTML = "Submit"
     submitButton.className = "form-submit"
     initialEl.appendChild(initialName)
@@ -104,19 +114,57 @@ var allDone = function(time) {
     console.log(allDoneSec)
 }
 
+
+getHighScore = function (result) {
+    document.getElementById('all-done').style.display = "none";
+    document.getElementById('final-page').style.display = "block";
+    var finalPageEl = document.createElement("h1")
+    finalPageEl.innerHTML = "High scores"
+    console.log(finalPageEl)
+    var scoreEl = document.createElement("p")
+    scoreEl.innerHTML = "1. " + result
+    console.log(scoreEl)
+    var finalButtonEl = document.createElement("section")
+    finalButtonEl.className = "form"
+    var goBackBtn = document.createElement("button")
+    goBackBtn.innerHTML = "Go back"
+    goBackBtn.className = "form-submit"
+    goBackBtn.id = "go-back"
+    var clearHighScore = document.createElement("button")
+    clearHighScore.innerHTML = "Clear high score"
+    clearHighScore.className = "form-submit"
+    finalButtonEl.appendChild(goBackBtn)
+    finalButtonEl.appendChild(clearHighScore)
+    console.log(finalButtonEl)
+    finalPageSec.appendChild(finalPageEl)
+    finalPageSec.appendChild(scoreEl)
+    finalPageSec.appendChild(finalButtonEl)
+    console.log(finalPageSec)
+    //alert("here")
+}
+
 var penaltyCountDown = function() {
 
 }
-buttonEl.addEventListener("click",function(){
-    startCountDown(100);
-    startQuiz();
 
+buttonEl.addEventListener("click",function(){
+    startQuiz();
 })
+
+// if (localStorage.getItem("quizResult") == null) {
+//     var quizResult = []
+//     getResult();
+// }
+// else if (localStorage.getItem("quizResult") != null) {
+//     var quizResult = JSON.parse(localStorage.getItem("quizResult"))
+//     getResult()
+// }
 
 var quizCounter = 0
 
 // when any of the button of the quiz gets clicked, create next question
 var startQuiz = function () {
+    startCountDown(100);
     document.getElementById('content-start').style.display = "none";
 
 
@@ -145,11 +193,72 @@ var startQuiz = function () {
                 if (quizCounter < 2) {
                     createQuizEl(quizCounter+1);
                     quizEl.append(checkAnswer(ansValue,inputValue.slice(inputValue.length - 1)));
+                    var ans = checkAnswer(ansValue,inputValue.slice(inputValue.length - 1))
+                    if(ans.innerHTML == "Wrong!") {
+                        //alert("here")
+                        var remain = timerEl.getAttribute("value") - 10
+                        console.log(remain)
+                        stopCountDown()
+                        startCountDown(remain)
+                        
+                    }
                 }
                 else{
+                    var ans = checkAnswer(ansValue,inputValue.slice(inputValue.length - 1))
+                    if(ans.innerHTML == "Wrong!") {
+                        //alert("here")
+                        var remain = timerEl.getAttribute("value") - 10
+                        console.log(remain)
+                        stopCountDown()
+                        startCountDown(remain)
+                    }
                     allDone(timerEl.getAttribute("value"))
                     console.log(timerEl.getAttribute("value"))
                     allDoneSec.appendChild(checkAnswer(ansValue,inputValue.slice(inputValue.length - 1)))
+                    var submitBtn = document.getElementById ("submit-btn")
+                    console.log(submitBtn)
+
+                    var submitBtn = document.getElementById ("submit-btn")
+                    console.log(submitBtn)
+
+                    if (localStorage.getItem("quizResult") == null) {
+                        var quizResult = []
+                    }
+                    else if (localStorage.getItem("quizResult") != null) {
+                        var quizResult = JSON.parse(localStorage.getItem("quizResult"))
+                    }
+
+                    submitBtn.addEventListener("click", function(event) {
+                        event.preventDefault();
+                        var quizResultName = document.getElementById("ini-name").value
+                        var quizResultScore = timerEl.getAttribute("value")
+                        console.log(quizResultName)
+                        console.log(quizResultScore)
+                        resultArray = {"name": quizResultName, "score":quizResultScore}
+                        console.log(resultArray)
+                        quizResult.push(resultArray)
+                        console.log(quizResult)
+                        localStorage.setItem("quizResult", JSON.stringify(quizResult));
+                        var finalScore = JSON.parse(localStorage.getItem("quizResult"))
+                        console.log(finalScore)
+                        
+                        var highest = Math.max(...finalScore.map(o => o.score))
+                        console.log(highest)
+                        var highestItem = finalScore.filter(item => item.score == highest)
+                        console.log(highestItem)
+                        var finalResult = highestItem[0]["name"]+"-"+highestItem[0]["score"]
+                        console.log(finalResult)
+                        getHighScore(finalResult)  
+                        var goBack = document.getElementById ("go-back")
+                        console.log(document.getElementById ("go-back"))
+                        goBack.addEventListener("click", function(event) {
+                            event.preventDefault();
+                            document.getElementById('content-start').style.display = "block";
+                            document.getElementById('final-page').style.display = "none";
+                        })                      
+                        })
+
+
                 }
             })
             console.log(listBtnEl)
@@ -167,6 +276,77 @@ var startQuiz = function () {
     }
 
     createQuizEl(0)
+
+// var submitBtn = document.getElementById ("submit-btn")
+// console.log(submitBtn)
+
+// if (localStorage.getItem("quizResult") == null) {
+//     var quizResult = []
+// }
+// else if (localStorage.getItem("quizResult") != null) {
+//     var quizResult = JSON.parse(localStorage.getItem("quizResult"))
+// }
+
+// submitBtn.addEventListener("click", function() {
+//     var quizResultName = document.getElementById("ini-name").value
+//     var quizResultScore = timerEl.getAttribute("value")
+//     console.log(quizResultName)
+//     console.log(quizResultScore)
+//     resultArray = {"name": quizResultName, "score":quizResultScore}
+//     console.log(resultArray)
+//     quizResult.push(resultArray)
+//     console.log(quizResult)
+//     localStorage.setItem("quizResult", JSON.stringify(quizResult));
+//     var finalScore = JSON.parse(localStorage.getItem("quizResult"))
+//     console.log(finalScore)
+    
+//     var highest = Math.max(...finalScore.map(o => o.score))
+//     console.log(highest)
+//     var highestItem = finalScore.filter(item => item.score == highest)
+//     console.log(highestItem)
+//     var finalResult = highestItem[0]["name"]+"-"+highestItem[0]["score"]
+//     console.log(finalResult)
+//     getHighScore(finalResult)
+//     alert("here")
+//     })
+
+// var saveResult = function() {
+//     var submitBtn = document.getElementById ("submit-btn")
+//     console.log(submitBtn)
+  
+//     var getResult = function() {submitBtn.addEventListener("click", function() {
+//         var quizResultName = document.getElementById("ini-name").value
+//         var quizResultScore = timerEl.getAttribute("value")
+//         console.log(quizResultName)
+//         console.log(quizResultScore)
+//         resultArray = {"name": quizResultName, "score":quizResultScore}
+//         console.log(resultArray)
+//         quizResult.push(resultArray)
+//         console.log(quizResult)
+//         localStorage.setItem("quizResult", JSON.stringify(quizResult));
+//         var finalScore = JSON.parse(localStorage.getItem("quizResult"))
+//         console.log(finalScore)
+        
+//         var highest = Math.max(...finalScore.map(o => o.score))
+//         console.log(highest)
+//         var highestItem = finalScore.filter(item => item.score == highest)
+//         console.log(highestItem)
+//         var finalResult = highestItem[0]["name"]+"-"+highestItem[0]["score"]
+//         console.log(finalResult)
+//         getHighScore(finalResult)
+//         alert("here")
+//         })
+//     }
+//     if (localStorage.getItem("quizResult") == null) {
+//         var quizResult = []
+//         getResult();
+//     }
+//     else if (localStorage.getItem("quizResult") != null) {
+//         var quizResult = JSON.parse(localStorage.getItem("quizResult"))
+//         getResult()
+//     }
+// };
+
     // if (quizCounter < 3) {
     //     createQuizEl(quizCounter)
     //     console.log(quizCounter)
