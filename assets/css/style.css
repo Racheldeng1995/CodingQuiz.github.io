@@ -68,4 +68,46 @@ header nav ul {
     text-align: left;
 }
 
+.main-quiz p {
+    padding: 15px ;
+    text-align: left;
+    font-size: 20px ;
+}
+
+.quiz-anwser {
+    border-top: slategray solid;
+    border-width: medium;
+    margin-top: 10px;
+    font-style: italic;
+    color: slategray;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.form {
+    padding: 15px ;
+    display: flex;
+    align-items: stretch ;
+    flex-wrap: wrap;
+    justify-content:space-between;
+    font-size: 20px ;
+}
+
+.form-input {
+    padding: 30px;
+    border: 1px solid black;
+    font-size: 40px;
+    width: 40%;
+}
+
+.form-submit {
+    padding: 30px;
+    border-radius:  15px;
+    background-color: blue;
+    cursor: pointer;
+    color: white;
+    margin:10px;
+    font-size: 20px ;
+}
+
 
