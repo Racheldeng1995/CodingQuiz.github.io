@@ -11,7 +11,7 @@ Main features in this application:
 * You can save your initials and score at the end.
 
 ## Application Deployment
-* Live URL: https://racheldeng1995.github.io/CodingQuiz.github.io/index.html
+* Live URL: https://racheldeng1995.github.io/CodingQuiz.github.io/
 * Screenshot: 
 ![image](https://user-images.githubusercontent.com/48065400/177862175-9e4f1645-4e58-4cd5-93d6-820bbe9b0273.png)
 
